@@ -1,5 +1,7 @@
 provider "aws" {
-  region = "us-east-1"
+  access_key = "ACCESS_KEY_HERE"
+  secret_key = "SECRET_KEY_HERE"
+  region     = "us-east-1"
 }
 
 data "aws_availability_zones" "available" {}
@@ -77,7 +79,7 @@ resource "aws_security_group" "elb" {
 resource "aws_elb" "example" {
   name               = "terraform-go-api"
   availability_zones = ["eu-west-1b", "eu-west-1a"]
-  security_groups    = [aws_security_group.elb.id]
+  security_groups    = [aws_security_group.example.id]
 
   listener {
     lb_port           = 80
