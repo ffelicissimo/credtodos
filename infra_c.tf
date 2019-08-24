@@ -1,11 +1,11 @@
-#Providers
+# Providers
 provider "aws" {
-  access_key = "ACCESS_KEY_HERE"
-  secret_key = "SECRET_KEY_HERE"
+  access_key = "access_key"
+  secret_key = "secret_key"
   region     = "us-east-1"
 }
 
-#VPC
+# VPC
 module "vpc" {
   source = "terraform-aws-modules/vpc/aws"
   name = "techtest"
@@ -17,7 +17,7 @@ module "vpc" {
   azs = ["us-east-1","us-east-2"]
 }
 
-#Security Group
+# Security Group
     resource "aws_security_group" "nodes-sg" {
   name        = "test-nodes-sg"
   description = "Slave Nodes Security Group"
@@ -28,7 +28,7 @@ module "vpc" {
   }
 }
 
-#Rules Out
+# Rules Out
 resource "aws_security_group_rule" "nodes-sg-egress" {
   type              = "egress"
   from_port         = 0
@@ -38,7 +38,7 @@ resource "aws_security_group_rule" "nodes-sg-egress" {
   security_group_id = "${aws_security_group.nodes-sg.id}"
 }
 
-#Rule IN
+# Rule IN
 resource "aws_security_group_rule" "nodes-sg-allow-ssh"{
   type              = "ingress"
   from_port         = 22
@@ -48,7 +48,7 @@ resource "aws_security_group_rule" "nodes-sg-allow-ssh"{
   security_group_id = "${aws_security_group.nodes-sg.id}"
 }
 
-#Rule IN - Port APP PROD
+# Rule IN - Port APP PROD
 resource "aws_security_group_rule" "nodes-sg-allow-prod"{
   type              = "ingress"
   from_port         = 5000
@@ -58,7 +58,7 @@ resource "aws_security_group_rule" "nodes-sg-allow-prod"{
   security_group_id = "${aws_security_group.nodes-sg.id}"
 }
 
-#Rule IN - Port APP DEV
+# Rule IN - Port APP DEV
 resource "aws_security_group_rule" "nodes-sg-allow-dev"{
   type              = "ingress"
   from_port         = 6000
@@ -68,16 +68,16 @@ resource "aws_security_group_rule" "nodes-sg-allow-dev"{
   security_group_id = "${aws_security_group.nodes-sg.id}"
 }
 
-#Create Machine
+# Create Machine
 resource "aws_instance" "techtest" {
-  ami                         = "ami-674cbc1e"
-  instance_type               = "t2.micro"
-  key_name                    = "fernando"
-  vpc_security_group_ids      = ["${aws_security_group.nodes-sg.id}"]
+  ami = "ami-674cbc1e"
+  instance_type = "t2.micro"
+  key_name = "fernando"
+  vpc_security_group_ids = ["${aws_security_group.nodes-sg.id}"]
   associate_public_ip_address = true
 
   tags = {
-    Name = "credtodos"
+    Name = "techtest"
   }
 
   root_block_device {
@@ -96,7 +96,6 @@ write_files:
         Description=Docker execution app prod
         Requires=docker.service
         After=docker.service
-
         [Service]
         User=root
         Restart=on-failure
@@ -106,7 +105,6 @@ write_files:
         ExecStartPre=-/usr/bin/docker rm app-prod
         ExecStart=/bin/sh -c '/usr/bin/docker run --privileged --name app-prod -e ENV=production --net=host ffelicissimo/techtest:latest'
         ExecStop=-/usr/bin/docker stop app-prod
-
         [Install]
         WantedBy=multi-user.target
     - path: /etc/systemd/system/app-dev.service
@@ -117,7 +115,6 @@ write_files:
         Description=Docker execution app dev
         Requires=docker.service
         After=docker.service
-
         [Service]
         User=root
         Restart=on-failure
@@ -127,7 +124,6 @@ write_files:
         ExecStartPre=-/usr/bin/docker rm app-dev
         ExecStart=/bin/sh -c '/usr/bin/docker run --privileged --name app-dev -e ENV=development --net=host ffelicissimo/techtest:latest'
         ExecStop=-/usr/bin/docker stop app-dev
-
         [Install]
         WantedBy=multi-user.target
     - path: /etc/systemd/system/redis.service
@@ -138,7 +134,6 @@ write_files:
         Description=Docker execution app redis
         Requires=docker.service
         After=docker.service
-
         [Service]
         User=root
         Restart=on-failure
@@ -148,7 +143,6 @@ write_files:
         ExecStartPre=-/usr/bin/docker rm redis
         ExecStart=/bin/sh -c '/usr/bin/docker run --privileged --name redis -e ENV=development --net=host redis:latest'
         ExecStop=-/usr/bin/docker stop redis
-
         [Install]
         WantedBy=multi-user.target
 runcmd:
@@ -167,7 +161,6 @@ runcmd:
   - sleep 10
   - systemctl restart --no-block docker  
 EOF
-  availability_zone = "us-east-1"
-  #subnet_id = "${element(module.vpc.public_subnets,0)}"
-  subnet_id = "${element(data.aws_subnet_ids.private.ids,count.index)}"
+  availability_zone = "us-east-1a"
+  subnet_id = "${element(module.vpc.public_subnets,0)}"
 }
