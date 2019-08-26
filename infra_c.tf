@@ -71,7 +71,7 @@ resource "aws_security_group_rule" "nodes-sg-allow-dev"{
 
 # Create Machine
 resource "aws_instance" "techtest" {
-  ami = "ami-0b898040803850657"
+  ami = "ami-0cfee17793b08a293"
   instance_type = "t2.micro"
   key_name = "fernando"
   vpc_security_group_ids = ["${aws_security_group.nodes-sg.id}"]
@@ -86,82 +86,7 @@ resource "aws_instance" "techtest" {
     volume_size = "10"
   }
 
-  user_data         = <<EOF
-cloud-config
-write_files:
-    - path: /etc/systemd/system/app-prod.service
-      owner: root:root
-      permissions: '0660'
-      content: |
-        [Unit]
-        Description=Docker execution app prod
-        Requires=docker.service
-        After=docker.service
-        [Service]
-        User=root
-        Restart=on-failure
-        RestartSec=10
-        Type=simple
-        ExecStartPre=-/usr/bin/docker kill app-prod
-        ExecStartPre=-/usr/bin/docker rm app-prod
-        ExecStart=/bin/sh -c '/usr/bin/docker run --privileged --name app-prod -e ENV=production --net=host ffelicissimo/techtest:latest'
-        ExecStop=-/usr/bin/docker stop app-prod
-        [Install]
-        WantedBy=multi-user.target
-    - path: /etc/systemd/system/app-dev.service
-      owner: root:root
-      permissions: '0660'
-      content: |
-        [Unit]
-        Description=Docker execution app dev
-        Requires=docker.service
-        After=docker.service
-        [Service]
-        User=root
-        Restart=on-failure
-        RestartSec=10
-        Type=simple
-        ExecStartPre=-/usr/bin/docker kill app-dev
-        ExecStartPre=-/usr/bin/docker rm app-dev
-        ExecStart=/bin/sh -c '/usr/bin/docker run --privileged --name app-dev -e ENV=development --net=host ffelicissimo/techtest:latest'
-        ExecStop=-/usr/bin/docker stop app-dev
-        [Install]
-        WantedBy=multi-user.target
-    - path: /etc/systemd/system/redis.service
-      owner: root:root
-      permissions: '0660'
-      content: |
-        [Unit]
-        Description=Docker execution app redis
-        Requires=docker.service
-        After=docker.service
-        [Service]
-        User=root
-        Restart=on-failure
-        RestartSec=10
-        Type=simple
-        ExecStartPre=-/usr/bin/docker kill redis
-        ExecStartPre=-/usr/bin/docker rm redis
-        ExecStart=/bin/sh -c '/usr/bin/docker run --privileged --name redis -e ENV=development --net=host redis:latest'
-        ExecStop=-/usr/bin/docker stop redis
-        [Install]
-        WantedBy=multi-user.target
-runcmd:
-  - sleep 30
-  - apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
-  - apt-add-repository 'deb https://apt.dockerproject.org/repo ubuntu-xenial main'
-  - apt-get update
-  - apt-get install -y docker-engine
-  - systemctl restart systemd-journald
-  - sleep 30
-  - mkdir /etc/systemd/system/docker.service.wants/
-  - ln -s /etc/systemd/system/app-prod.service /etc/systemd/system/docker.service.wants/
-  - ln -s /etc/systemd/system/app-dev.service /etc/systemd/system/docker.service.wants/
-  - ln -s /etc/systemd/system/redis.service /etc/systemd/system/docker.service.wants/
-  - systemctl daemon-reload
-  - sleep 10
-  - systemctl restart --no-block docker  
-EOF
-  availability_zone = "us-east-1d"
+  user_data = "${file("docker.sh")}"
+  availability_zone = "us-east-1a"
   subnet_id = "${element(module.vpc.public_subnets,0)}"
 }

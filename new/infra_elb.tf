@@ -42,12 +42,12 @@ resource "aws_launch_configuration" "example" {
     create_before_destroy = true
   }
 }
-#Criando Elastic
+# Criando Elastic
 
-resource "aws_autoscaling_group" "example" {
+resource "aws_autoscaling_group" "aws_elb" {
   launch_configuration = "${aws_launch_configuration.example.id}"
   load_balancers = ["${aws_elb.example.name}"]
-  availability_zones = [us-east-1a","us-east-1b","us-east-1c","us-east-1d","us-east-1e"]
+  availability_zones = ["us-east-1a","us-east-1b","us-east-1c","us-east-1d","us-east-1e"]
   min_size = 2
   max_size = 5
 
@@ -76,10 +76,10 @@ resource "aws_security_group" "elb" {
   }
 }
 
-resource "aws_elb" "example" {
-  name = "terraform-go-api"
-  availability_zones = ["eu-west-1b", "eu-west-1a"]
-  security_groups    = [aws_security_group.example.id]
+resource "aws_security_group" "elb_api" {
+  name = "elb-terraform-api"
+  availability_zones = ["us-east-1a","us-east-1b","us-east-1c","us-east-1d","us-east-1e"]
+  security_groups = [aws_security_group.example.id]
 
   listener {
     lb_port = 80
@@ -89,14 +89,21 @@ resource "aws_elb" "example" {
   }
 
   health_check {
-    healthy_threshold = 2
+    healthy_threshold   = 2
     unhealthy_threshold = 2
-    timeout = 3
-    interval = 30
-    target = "HTTP:80/"
+    timeout             = 3
+    target              = "HTTP:8000/"
+    interval            = 30
+  }
+
+  instances = ["${aws_instance.foo.id}"]
+  cross_zone_load_balancing = true
+    
+  tags = {
+    Name = "elb-terraform-api"
   }
 }
 
-output "elb_dns_name" {
-  value = "${aws_elb.example.dns_name}"
-}
+# output "elb_dns_name" {
+#  value = "${aws_elb.example.dns_name}"
+# }
