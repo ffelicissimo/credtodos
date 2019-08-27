@@ -1,8 +1,10 @@
 #!/bin/bash
 ######################### FERNANDO FELICISSIMO ##################################
+sudo apt-get update && apt-get upgrade -y \
+             && apt-get dist-upgrade -y
+sudo usermod -aG docker $USER
 curl -fsSL https://get.docker.com -o get-docker.sh
 sudo sh get-docker.sh
-sudo usermod -aG docker $USER
 sudo systemctl restart systemd-journald
 sudo systemctl daemon-reload
 sudo systemctl restart --no-block docker
