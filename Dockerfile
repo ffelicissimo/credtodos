@@ -15,9 +15,9 @@ RUN mkdir -p /credtodos
 VOLUME ["/credtodos/app"]
 
 RUN git clone https://github.com/geru-br/devops-challenge.git \
-    && cd /credtodos/devops-challenge \
-    && mv app ../ \
-    && rm /credtodos/devops-challenge
+    && cd /devops-challenge \
+    && mv app /credtodos \
+    && rm -Rf /devops-challenge
 
 WORKDIR /credtodos/app
 
