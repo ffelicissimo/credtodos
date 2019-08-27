@@ -6,6 +6,8 @@ RUN apk update && apk upgrade && \
 
 ENV GERU_PASS=${GERU_PASS}
 
+ARG GERU_PASS
+
 LABEL maintainer="Fernando Felicissimo"
 
 RUN mkdir -p /credtodos
@@ -21,6 +23,6 @@ RUN pip install -r requirements.txt
 
 ENTRYPOINT ["python", "/credtodos/app/app.py"]
 
-CMD [ "printenv" ]
+RUN printenv
 
 EXPOSE 80
