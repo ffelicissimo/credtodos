@@ -52,18 +52,8 @@ resource "aws_security_group_rule" "nodes-sg-allow-ssh"{
 # Rule IN - Port APP PROD
 resource "aws_security_group_rule" "nodes-sg-allow-prod"{
   type              = "ingress"
-  from_port         = 5000
-  to_port           = 5000
-  protocol          = "tcp"
-  cidr_blocks       = ["0.0.0.0/0"]
-  security_group_id = "${aws_security_group.nodes-sg.id}"
-}
-
-# Rule IN - Port APP DEV
-resource "aws_security_group_rule" "nodes-sg-allow-dev"{
-  type              = "ingress"
-  from_port         = 6000
-  to_port           = 6000
+  from_port         = 80
+  to_port           = 80
   protocol          = "tcp"
   cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = "${aws_security_group.nodes-sg.id}"
