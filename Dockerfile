@@ -12,8 +12,6 @@ LABEL maintainer="Fernando Felicissimo"
 
 RUN mkdir -p /credtodos
 
-VOLUME ["/credtodos/app"]
-
 RUN git clone https://github.com/geru-br/devops-challenge.git \
     && cd /devops-challenge \
     && mv app /credtodos \
