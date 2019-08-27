@@ -2,6 +2,7 @@
 ######################### FERNANDO FELICISSIMO ##################################
 sudo apt-get update && apt-get upgrade -y \
              && apt-get dist-upgrade -y
+sudo groupadd docker
 sudo usermod -aG docker $USER
 curl -fsSL https://get.docker.com -o get-docker.sh
 sudo sh get-docker.sh
