@@ -21,6 +21,6 @@ RUN pip install -r requirements.txt
 
 ENTRYPOINT ["python", "/credtodos/app/app.py"]
 
-CMD [printenv]
+CMD [ "printenv" ]
 
 EXPOSE 80

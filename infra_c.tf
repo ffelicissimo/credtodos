@@ -3,7 +3,7 @@ provider "aws" {
   version = "~> 2.0"
   access_key = "access_key"
   secret_key = "secret_key"
-  region     = "us-east-1"
+  region = "us-east-1"
 }
 
 # VPC
