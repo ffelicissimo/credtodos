@@ -3,7 +3,7 @@
 sudo apt-get update && apt-get upgrade -y \
              && apt-get dist-upgrade -y
 sudo groupadd docker
-sudo usermod -aG docker $USER
+sudo usermod -aG docker $(id -un)
 curl -fsSL https://get.docker.com -o get-docker.sh
 sudo sh get-docker.sh
 sudo systemctl restart systemd-journald
@@ -13,7 +13,7 @@ sudo systemctl enable docker
 ##############################################################################
 
 ################### Executando Container #####################################
-/bin/sh -c '/usr/bin/docker run --privileged -d -p 80:80 --name credtodosapi --net=host ffelicissimo/credtodos:latest'
+/bin/sh -c '/usr/bin/docker run --privileged -dit --restart always -p 80:80 --name credtodosapi --net=host ffelicissimo/credtodos:latest'
 #############################################################################
 #sudo apt-get remove docker docker-engine docker.io containerd runc
 #sudo apt-get update
