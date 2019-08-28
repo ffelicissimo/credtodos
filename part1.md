@@ -7,10 +7,11 @@ E sempre uma boa pratica ter 02 repositorios de codigos onde um repositorio e pa
 2 - terraform plan
 3 - terraform apply -auto-approve
 
-Acessando a API FLASK :
+Acessando a API FLASK:
 
 curl -H "Authorization: Token credtodos" http://ippublico/
-<a>devops test server flying!!</a>
+
+<a><br>devops test server flying!!</a></br>
 
 Para desprovisionar todo o ambiente basta executar o seguite comando:
 
