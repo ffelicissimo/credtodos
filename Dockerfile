@@ -4,9 +4,9 @@ FROM python:alpine
 RUN apk update && apk upgrade && \
     apk add --no-cache bash git
 
-ENV GERU_PASS=${GERU_PASS}
-
 ARG GERU_PASS
+
+ENV GERU_PASS=$GERU_PASS
 
 LABEL maintainer="Fernando Felicissimo"
 

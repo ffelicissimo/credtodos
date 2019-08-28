@@ -16,5 +16,5 @@ sudo rm -rf /var/lib/apt/lists/*
 ##############################################################################
 
 ################### Executando Container #####################################
-/bin/sh -c '/usr/bin/docker run --privileged -dit $GERU_PASS --restart always -p 80:80 --name credtodosapi --net=host ffelicissimo/credtodos:latest'
+/bin/sh -c '/usr/bin/docker run --privileged -dit --env-file=dev.env --restart always -p 80:80 --name credtodosapi --net=host ffelicissimo/credtodos:latest'
 #############################################################################
