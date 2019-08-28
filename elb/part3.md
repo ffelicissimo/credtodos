@@ -1,4 +1,4 @@
-A ideia e montar uma arquitetura da seguinte maneira automatizando o provisionamento da infra via terraform:
+A ideia e montar uma arquitetura da seguinte maneira automatizando o provisionamento da infra via terraform V0.12.6 . No caso sera necessario alterar no arquivo "main.tf" os campos "acess_key","secret_key e alterar o campo "key_name" para o nome da chave de seu ambiente no meu caso esta como "fernando".
 
 Criar um Launch Configuration
 Vincular nosso Launch Configuration em um Auto Scaling Group
@@ -30,3 +30,4 @@ Testando ELB e aplicacao:
 curl -H "Authorization: Token" http://terraform-elb-1690236603.us-east-1.elb.amazonaws.com
 devops test server flying!!
 
+obs:Essa descricao foi feitada com base na imagem terraform_elb-asg_arquitetura.png
