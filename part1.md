@@ -9,8 +9,8 @@ E sempre uma boa pratica ter 02 repositorios de codigos onde um repositorio e pa
 
 Acessando a API FLASK :
 
-curl -H "Authorization: Token" http://ippublico/
-devops test server flying!!
+curl -H "Authorization: Token credtodos" http://ippublico/
+<a>devops test server flying!!</a>
 
 Para desprovisionar todo o ambiente basta executar o seguite comando:
 

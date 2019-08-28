@@ -27,7 +27,7 @@ Desprovisionando o ambiente:
 $terraform destroy -force -auto-approve
 
 Testando ELB e aplicacao:
-curl -H "Authorization: Token" http://terraform-elb-1690236603.us-east-1.elb.amazonaws.com
-devops test server flying!!
+curl -H "Authorization: Token credtodos" http://terraform-elb-1690236603.us-east-1.elb.amazonaws.com
+<a>devops test server flying!!</a>
 
 obs:Essa descricao foi feitada com base na imagem terraform_elb-asg_arquitetura.png
