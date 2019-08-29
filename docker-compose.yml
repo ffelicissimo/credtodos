@@ -1,0 +1,9 @@
+version: "3"
+services:
+  app:
+    container_name: credtodosapi
+    build: .      
+    ports:
+      - "8080:80"
+    environment:
+      - GERU_PASS=${GERU_PASS}    
