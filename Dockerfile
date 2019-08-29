@@ -6,6 +6,7 @@ RUN apk update && apk upgrade && \
     apk add --no-cache bash git
 
 ARG BRANCH="origin"
+ARG GERU_PASS=${GERU_PASS}
 ARG COMMIT="local-build"
 ARG DATE="2019-08-29T00:00:00Z"
 ARG URL="https://github.com/ffelicissimo/credtodos"
@@ -25,6 +26,7 @@ ENV BRANCH "$BRANCH"
 ENV COMMIT "$COMMIT"
 ENV DATE "$DATE"
 ENV VERSION "$VERSION"
+ENV GERU_PASS "$GERU_PASS"
 
 RUN mkdir -p /credtodos
 
