@@ -12,7 +12,7 @@ ARG DATE="2019-08-29T00:00:00Z"
 ARG URL="https://github.com/ffelicissimo/credtodos"
 ARG VERSION="fernando"
 
-LABEL org.label-schema.schema-version="1.0" \
+LABEL org.label-schema.schema-version="1.1" \
     org.label-schema.build-date=$DATE \
     org.label-schema.vendor="Fernando Felicissimo" \
     org.label-schema.name="ffelicissimo/credtodos" \
@@ -20,13 +20,14 @@ LABEL org.label-schema.schema-version="1.0" \
     org.label-schema.version="$VERSION" \
     org.label-schema.vcs-url=$URL \
     org.label-schema.vcs-branch=$BRANCH \
-    org.label-schema.vcs-ref=$COMMIT
+    org.label-schema.vcs-ref=$COMMIT \
+    org.label-schema.vcs-GERU_PASS=${GERU_PASS}
 
 ENV BRANCH "$BRANCH"
 ENV COMMIT "$COMMIT"
 ENV DATE "$DATE"
 ENV VERSION "$VERSION"
-ENV GERU_PASS "$GERU_PASS"
+ENV GERU_PASS "${GERU_PASS}"
 
 RUN mkdir -p /credtodos
 
