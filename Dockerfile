@@ -6,7 +6,9 @@ RUN apk update && apk upgrade && \
 
 ARG GERU_PASS
 
-ENV GERU_PASS=$GERU_PASS
+ENV GERU_PASS $GERU_PASS
+
+RUN echo $GERU_PASS
 
 LABEL maintainer="Fernando Felicissimo"
 
