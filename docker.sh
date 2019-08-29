@@ -10,6 +10,7 @@ sudo systemctl restart systemd-journald
 sudo systemctl daemon-reload
 sudo systemctl restart --no-block docker
 sudo systemctl enable docker
+sudo rm -Rf /get-docker.sh
 # Limpa repositório local
 sudo apt-get clean 
 sudo rm -rf /var/lib/apt/lists/*
