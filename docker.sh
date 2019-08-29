@@ -1,7 +1,8 @@
 #!/bin/bash
 ######################### FERNANDO FELICISSIMO ##################################
-sudo apt-get update && apt-get upgrade -y \
-             && apt-get dist-upgrade -y
+sudo apt-get update 
+sudo apt-get upgrade -y
+sudo apt-get dist-upgrade -y
 sudo groupadd docker
 sudo usermod -aG docker ubuntu
 curl -fsSL https://get.docker.com -o get-docker.sh
@@ -17,5 +18,5 @@ sudo rm -rf /var/lib/apt/lists/*
 ##############################################################################
 
 ################### Executando Container #####################################
-/bin/sh -c '/usr/bin/docker run --privileged -dit --env-file=dev.env --restart always -p 80:80 --name credtodosapi --net=host ffelicissimo/credtodos:latest'
+/bin/sh -c '/usr/bin/docker run --privileged -d --env-file=dev.env --restart always -p 80:80 --name credtodosapi --net=host ffelicissimo/credtodos:latest'
 #############################################################################
