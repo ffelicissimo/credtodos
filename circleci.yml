@@ -1,0 +1,54 @@
+workflows:
+  version: 2
+  build-deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
+
+version: 2
+jobs:
+  build:
+    docker:
+      - image: ffelicissimo/ffelicissimo
+        environment:
+          GERU_PASS: $GERU_PASS
+          TEST_API_URL: curl -H "Authorization: Token $GERU_PASS" http://localhost/
+      - image: ffelicissimo/credtodos:latest
+        environment:
+          GERU_PASSWORD: $GERU_PASS
+
+    steps:
+      - checkout
+      - restore_cache:
+          key: deps1-{{ .Branch }}-{{ checksum "/credtodos/app/requirements.txt" }}
+      - run:
+          name: Install Python deps in a venv
+          command: |
+            python3 -m venv venv
+            . venv/bin/activate
+            pip install -r /credtodos/app/requirements.txt
+      - save_cache:
+          key: deps1-{{ .Branch }}-{{ checksum "/credtodos/app/requirements.txt" }}
+          paths:
+            - "venv"
+      - run:
+          command: |
+            . venv/bin/activate
+            python manage.py test
+      - store_artifacts:
+          path: test-reports/
+          destination: tr1
+      - store_test_results:
+          path: test-reports/
+    deploy:
+    steps:
+      - checkout
+      - run:
+          name: Deploy Master to Heroku
+          command: |
+            docker push ffelicissimo/credtodos:latest master        
