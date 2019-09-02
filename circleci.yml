@@ -17,7 +17,6 @@ jobs:
       - image: ffelicissimo/ffelicissimo
         environment:
           GERU_PASS: $GERU_PASS
-          TEST_API_URL: curl -H "Authorization: Token $GERU_PASS" http://localhost/
       - image: ffelicissimo/credtodos:latest
         environment:
           GERU_PASSWORD: $GERU_PASS
