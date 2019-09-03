@@ -16,7 +16,7 @@ test:
    - docker run -d -p 80:80 --name=credtodos credtodos/credtodos ; sleep 5 
    - curl -H "Authorization: Token $GERU_PASS" http://localhost/
 
-version: 2
+version: 2.1
 jobs:
   build:
     branches:
@@ -33,7 +33,7 @@ jobs:
       - run:
           name: Print the Current Time
           command: date 
-          
+
 deployment:
   hub:
     branch: master
