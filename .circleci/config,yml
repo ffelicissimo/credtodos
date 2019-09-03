@@ -1,0 +1,39 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: ffelicissimo/credtodos
+        environment:
+          FLASK_CONFIG: testing
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints:
+            - 70:7f:b7:cb:ee:a2:a8:c2:db:3e:17:c3:45:e2:16:8d
+      - run:
+          name: Setup VirtualEnv
+          command: |
+            echo 'export TAG=0.1.${CIRCLE_BUILD_NUM}' >> $BASH_ENV
+            echo 'export IMAGE_NAME=credtodos' >> $BASH_ENV 
+            virtualenv credtodos
+            . /credtodos/app/
+            pip install --no-cache-dir -r requirements.txt
+      - run:
+          name: Run Tests
+          command: |
+            . /credtodos/app
+            python test_hello_world.py
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run:
+          name: Build and push Docker image
+          command: |
+            . /credtodos/app
+            pyinstaller -F app.py
+            docker build -t $DOCKER_LOGIN/$IMAGE_NAME:$TAG .
+            echo $DOCKER_PWD | docker login -u $DOCKER_LOGIN --password-stdin
+            docker push $DOCKER_LOGIN/$IMAGE_NAME:$TAG
+      #- run:
+      #    name: Deploy app to Linode Producrion Server via Docker
+      #    command: |
+      #      ssh -o StrictHostKeyChecking=no root@fosscon.punkdata.org "/bin/bash ./deploy_app.sh $DOCKER_LOGIN/$IMAGE_NAME:$TAG"
