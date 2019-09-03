@@ -12,12 +12,14 @@ RUN export $GERU_PASS
 
 RUN mkdir -p /credtodos
 
-RUN git clone https://github.com/geru-br/devops-challenge.git \
-    && cd /devops-challenge \
-    && mv app /credtodos \
-    && rm -Rf /devops-challenge
+#RUN git clone https://github.com/geru-br/devops-challenge.git \
+#    && cd /devops-challenge \
+#    && mv app /credtodos \
+#    && rm -Rf /devops-challenge
 
-ADD dev.env /credtodos/app
+#ADD dev.env /credtodos/app
+
+ADD app/ /credtodos
 
 WORKDIR /credtodos/app
 
