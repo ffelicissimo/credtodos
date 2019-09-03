@@ -13,9 +13,27 @@ dependencies:
 test:
   override:
    - echo "test"
-#  - docker run -d -p 80:80 --name=credtodos credtodos/credtodos ; sleep 5 
-#  - curl -H "Authorization: Token credtodos" http://localhost/
- 
+   - docker run -d -p 80:80 --name=credtodos credtodos/credtodos ; sleep 5 
+   - curl -H "Authorization: Token $GERU_PASS" http://localhost/
+
+version: 2
+jobs:
+  build:
+    branches:
+      only:
+        - test-build-initial
+        - build-*
+    docker:
+      - image: ffelicissimo/credtodos
+    steps:
+      - checkout
+      - run:
+          name: credtodosapi
+          command: echo Hello, world.
+      - run:
+          name: Print the Current Time
+          command: date 
+          
 deployment:
   hub:
     branch: master
