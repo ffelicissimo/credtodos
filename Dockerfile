@@ -23,9 +23,9 @@ ADD app/ /credtodos
 
 WORKDIR /credtodos/app
 
-RUN pip install -r requirements.txt
+RUN pip install -r /credtodos/app/requirements.txt
 
-ENTRYPOINT ["python", "app.py"]
+ENTRYPOINT ["python", "/credtodos/app/app.py"]
 
 RUN printenv
 
