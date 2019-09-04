@@ -17,7 +17,7 @@ jobs:
             echo 'export IMAGE_NAME=credtodos' >> $BASH_ENV 
             virtualenv credtodos
             . /credtodos/app/
-            pip install --no-cache-dir -r requirements.txt
+            pip install --no-cache-dir -r /credtodos/app/requirements.txt
       - run:
           name: Run Tests
           command: |
