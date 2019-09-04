@@ -10,7 +10,7 @@ ARG GERU_PASS
 ENV GERU_PASS="${GERU_PASS}"
 RUN export $GERU_PASS
 
-RUN mkdir -p /credtodos
+RUN mkdir -p /credtodos/app
 
 #RUN git clone https://github.com/geru-br/devops-challenge.git \
 #    && cd /devops-challenge \
@@ -19,7 +19,7 @@ RUN mkdir -p /credtodos
 
 #ADD dev.env /credtodos/app
 
-ADD app/ /credtodos
+COPY app/* /credtodos/app/
 
 WORKDIR /credtodos/app
 
