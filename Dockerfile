@@ -22,6 +22,7 @@ WORKDIR /credtodos/app/
 
 COPY /app/app.py .
 COPY /app/requirements.txt .
+COPY /app/test_hello_world.py .
 
 RUN pip install -r requirements.txt
 
