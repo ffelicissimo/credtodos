@@ -7,8 +7,8 @@ RUN apk update && apk upgrade && \
     apk add --no-cache bash git
 
 ARG GERU_PASS
-ENV GERU_PASS="${GERU_PASS}"
-RUN export $GERU_PASS
+ENV GERU_PASS = ${GERU_PASS}
+RUN echo $GERU_PASS
 
 RUN mkdir -p /credtodos/app/
 WORKDIR /credtodos/app/
