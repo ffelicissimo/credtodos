@@ -10,7 +10,8 @@ ARG GERU_PASS
 ENV GERU_PASS="${GERU_PASS}"
 RUN export $GERU_PASS
 
-RUN mkdir -p /credtodos/app
+RUN mkdir -p /credtodos/app/
+WORKDIR /credtodos/app/
 
 #RUN git clone https://github.com/geru-br/devops-challenge.git \
 #    && cd /devops-challenge \
@@ -19,11 +20,10 @@ RUN mkdir -p /credtodos/app
 
 #ADD dev.env /credtodos/app
 
-COPY app/* /credtodos/app/
+COPY /app/app.py .
+COPY /app/requirements.txt .
 
-WORKDIR /credtodos/app
-
-RUN pip install -r /credtodos/app/requirements.txt
+RUN pip install -r requirements.txt
 
 ENTRYPOINT ["python", "/credtodos/app/app.py"]
 
